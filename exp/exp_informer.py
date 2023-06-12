@@ -126,6 +126,10 @@ class Exp_Informer(Exp_Basic):
         train_data, train_loader = self._get_data(flag = 'train')
         vali_data, vali_loader = self._get_data(flag = 'val')
         test_data, test_loader = self._get_data(flag = 'test')
+        # for i, (batch_x,batch_y,batch_x_mark,batch_y_mark) in enumerate(train_loader):
+            # print('time stamp shape',batch_x_mark[0],batch_y_mark[0])
+            # print('data shape',batch_x.shape,batch_y.shape,batch_x_mark.shape,batch_y_mark.shape)
+            # exit()
 
         path = os.path.join(self.args.checkpoints, setting)
         if not os.path.exists(path):
@@ -192,7 +196,7 @@ class Exp_Informer(Exp_Basic):
         
         return self.model
 
-    def test(self, setting):
+    def test(self, setting,save_file='./save/default.txt'):
         test_data, test_loader = self._get_data(flag='test')
         
         self.model.eval()
@@ -220,6 +224,9 @@ class Exp_Informer(Exp_Basic):
 
         mae, mse, rmse, mape, mspe = metric(preds, trues)
         print('mse:{}, mae:{}'.format(mse, mae))
+        f=open(save_file,'w')
+        print('mse:{}, mae:{}'.format(mse, mae),file=f)
+        f.close()
 
         np.save(folder_path+'metrics.npy', np.array([mae, mse, rmse, mape, mspe]))
         np.save(folder_path+'pred.npy', preds)

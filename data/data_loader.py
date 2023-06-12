@@ -348,8 +348,12 @@ class Dataset_Pred(Dataset):
         df_stamp = pd.DataFrame(columns = ['date'])
         df_stamp.date = list(tmp_stamp.date.values) + list(pred_dates[1:])
         data_stamp = time_features(df_stamp, timeenc=self.timeenc, freq=self.freq[-1:])
+        # print('data stamp shape', data_stamp.shape)
+        # exit()
 
         self.data_x = data[border1:border2]
+        # print('self.datax mean, std',np.mean(self.data_x),np.std(self.data_x))
+        # exit()
         if self.inverse:
             self.data_y = df_data.values[border1:border2]
         else:
